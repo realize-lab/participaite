@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participaite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #3b82f6;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pdf-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: opacity 0.2s;
+        }
+
+        .pdf-icon:hover {
+            opacity: 0.8;
+        }
+
+        .authors {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .authors a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(255, 255, 255, 0.5);
+            transition: border-bottom-color 0.2s;
+        }
+
+        .authors a:hover {
+            border-bottom-color: white;
+        }
+
+        .conference {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* List View Styles */
+        .projects-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .projects-table th {
+            background: #f8fafc;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .projects-table td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: middle;
+        }
+
+        .projects-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .project-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .view-button {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .view-button:hover {
+            background: #2563eb;
+        }
+
+        /* Detail View Styles */
+        .detail-view {
+            display: none;
+        }
+
+        .back-button {
+            background: #6b7280;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 24px;
+            transition: background-color 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .back-button:hover {
+            background: #4b5563;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .detail-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .detail-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .field-content {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            line-height: 1.6;
+            color: #4b5563;
+            font-size: 0.875rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .checkbox-item label {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 60px;
+            color: #dc2626;
+            background: #fef2f2;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .projects-table {
+                font-size: 0.9rem;
+            }
+            
+            .projects-table th,
+            .projects-table td {
+                padding: 15px;
+            }
+            
+            .project-preview {
+                max-width: 200px;
+            }
+            
+            .detail-name {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>RelAItionship Building: Analyzing Recruitment Strategies for Participatory AI<a href="https://sites.google.com/view/realize-lab/" class="pdf-icon" target="_blank">📄</a></h1>
+            <div class="authors">
+                <h3>
+                    <a href="https://gena.kim/" target="_blank">Eugene Kim</a>, 
+                    <a href="https://profile.vballoli.com" target="_blank">Vaibhav Balloli</a>, 
+                    <a href="#" target="_blank">Berelian Karimian</a>,
+                    <a href="https://sites.google.com/view/elizabethbondi" target="_blank">Elizabeth Bondi-Kelly</a>,
+                    <a href="https://ben.fish/" target="_blank">Ben Fish</a>
+                </h3>
+            </div>
+            <div class="conference">
+                <h3>AAAI AI, Ethics, and Society 2025</h3>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- List View -->
+            <div id="listView" class="list-view">
+                <div id="loadingMessage" class="loading">
+                    Loading entries...
+                </div>
+                <table id="projectsTable" class="projects-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectsTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Detail View -->
+            <div id="detailView" class="detail-view">
+                <button class="back-button" onclick="showListView()">← Back to Projects</button>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div id="detailName" class="detail-name"></div>
+                    </div>
+                    <div id="detailContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let entries = [];
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadEntries);
+
+        async function loadEntries() {
+            try {
+                const response = await fetch('entries_data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                entries = await response.json();
+                renderProjectsList();
+            } catch (error) {
+                console.error('Error loading entries:', error);
+                document.getElementById('loadingMessage').innerHTML = `
+                    <div class="error">
+                        <h3>Error Loading Data</h3>
+                        <p>Could not load entries_data.json. Make sure the file exists and is properly formatted.</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderProjectsList() {
+            const loadingMessage = document.getElementById('loadingMessage');
+            const projectsTable = document.getElementById('projectsTable');
+            const tableBody = document.getElementById('projectsTableBody');
+
+            loadingMessage.style.display = 'none';
+
+            if (entries.length === 0) {
+                loadingMessage.innerHTML = `
+                    <div class="error">
+                        <h3>No Entries Found</h3>
+                        <p>The entries file is empty or contains no valid entries.</p>
+                    </div>
+                `;
+                loadingMessage.style.display = 'block';
+                return;
+            }
+
+            tableBody.innerHTML = '';
+
+            entries.forEach(entry => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>
+                        <div class="project-name">${escapeHtml(entry.name)}</div>
+                    </td>
+                    <td>
+                        <button class="view-button" onclick="showDetailView(${entry.id})">
+                            View Details
+                        </button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+            projectsTable.style.display = 'table';
+        }
+
+        function showDetailView(entryId) {
+            const entry = entries.find(e => e.id === entryId);
+            if (!entry) return;
+
+            document.getElementById('detailName').textContent = entry.name;
+
+            // Parse the info JSON to display fields like the Vue component
+            let parsedInfo;
+            try {
+                parsedInfo = JSON.parse(entry.info);
+            } catch (e) {
+                // If not JSON, display as text
+                document.getElementById('detailContent').innerHTML = `
+                    <div class="field-group">
+                        <label class="field-label">Project Information:</label>
+                        <div class="field-content">${escapeHtml(entry.info)}</div>
+                    </div>
+                `;
+                document.getElementById('listView').style.display = 'none';
+                document.getElementById('detailView').style.display = 'block';
+                window.scrollTo(0, 0);
+                return;
+            }
+
+            // Handle array of participant groups or single object
+            const groups = Array.isArray(parsedInfo) ? parsedInfo : [parsedInfo];
+            let detailHTML = '';
+
+            groups.forEach((group, index) => {
+                detailHTML += `
+                    <div class="field-group">
+                        <h3>Participant Group ${index + 1}</h3>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label class="field-label">What is the name of your project?</label>
+                        <div class="field-content">${escapeHtml(group.name || '')}</div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">What is the link to your project?</label>
+                        <div class="field-content">${escapeHtml(group.link || '')}</div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">What is your role in this project?</label>
+                        <div class="checkbox-group">
+                            ${group.role ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>I am a researcher</label></div>' : ''}
+                            ${group.role1 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>I am a stakeholder</label></div>' : ''}
+                            ${group.role2 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>I am a third-party</label></div>' : ''}
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">List the type of stakeholder involved in the project</label>
+                        <div class="field-content">${escapeHtml(group.type || '')}</div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">What roles did your stakeholder play?</label>
+                        <div class="checkbox-group">
+                            ${group.roles ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Client</label></div>' : ''}
+                            ${group.roles1 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Collaborator</label></div>' : ''}
+                            ${group.roles2 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Decision User</label></div>' : ''}
+                            ${group.roles3 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Regulators / Governors</label></div>' : ''}
+                            ${group.roles4 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Data Creator</label></div>' : ''}
+                            ${group.roles5 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Decision subject</label></div>' : ''}
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Who initiated the recruitment process?</label>
+                        <div class="checkbox-group">
+                            ${group.initiate ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Researcher did</label></div>' : ''}
+                            ${group.initiate1 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Stakeholder did</label></div>' : ''}
+                            ${group.other ? '<div class="field-content">' + escapeHtml(group.other) + '</div>' : ''}
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">What did the call for participation look like?</label>
+                        <div class="field-content">${escapeHtml(group.advertisingmethod || '')}</div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">What mechanisms did you use to recruit your stakeholder?</label>
+                        <div class="checkbox-group">
+                            ${group.mechanism ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>I contacted and worked with an NGO, university, advocacy group, union, etc.</label></div>' : ''}
+                            ${group.mechanism1 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>I used existing personal and social networks</label></div>' : ''}
+                            ${group.mechanism2 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>I advertised the opportunity directly</label></div>' : ''}
+                            ${group.mechanism3 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>I met the participant at an event</label></div>' : ''}
+                            ${group.mechanism4 ? '<div class="checkbox-item"><input type="checkbox" checked disabled><label>Other</label></div>' : ''}
+                        </div>
+                    </div>
+
+                    ${group.meeting ? `<div class="field-group"><label class="field-label">Organizations and how you know them:</label><div class="field-content">${escapeHtml(group.meeting)}</div></div>` : ''}
+                    ${group.meeting1 ? `<div class="field-group"><label class="field-label">Personal/social network description:</label><div class="field-content">${escapeHtml(group.meeting1)}</div></div>` : ''}
+                    ${group.admode ? `<div class="field-group"><label class="field-label">Platform/space used:</label><div class="field-content">${escapeHtml(group.admode)}</div></div>` : ''}
+                    ${group.meeting3 ? `<div class="field-group"><label class="field-label">Events:</label><div class="field-content">${escapeHtml(group.meeting3)}</div></div>` : ''}
+                    ${group.meeting4 ? `<div class="field-group"><label class="field-label">Other mechanism:</label><div class="field-content">${escapeHtml(group.meeting4)}</div></div>` : ''}
+
+                    <div class="field-group">
+                        <label class="field-label">What important lessons did you learn from recruiting this stakeholder?</label>
+                        <div class="field-content">${escapeHtml(group.lesson || '')}</div>
+                    </div>
+
+                    ${index < groups.length - 1 ? '<hr style="margin: 30px 0; border: 1px solid #e5e7eb;">' : ''}
+                `;
+            });
+
+            // Add feedback if available
+            if (groups[0] && groups[0].feedback) {
+                detailHTML += `
+                    <div class="field-group">
+                        <label class="field-label">Feedback:</label>
+                        <div class="field-content">${escapeHtml(groups[0].feedback)}</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('detailContent').innerHTML = detailHTML;
+
+            document.getElementById('listView').style.display = 'none';
+            document.getElementById('detailView').style.display = 'block';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function showListView() {
+            document.getElementById('listView').style.display = 'block';
+            document.getElementById('detailView').style.display = 'none';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
