@@ -1,0 +1,66 @@
+# This CITATION.cff reference content was generated from Zotero.
+references:
+  - title: >-
+      RelAItionship Building: Analyzing Recruitment Strategies for Participatory AI
+    abstract: |
+      Participatory AI, in which impacted community members and other stakeholders are involved in the design and development of AI systems, holds promise as a way to ensure AI is developed to meet their needs and reflect their values. However, the process of identifying, reaching out, and engaging with all relevant stakeholder groups, which we refer to as recruitment methodology, is still a practical challenge in AI projects striving to adopt participatory practices. In this paper, we investigate the challenges that researchers face when designing and executing recruitment methodology for Participatory AI projects, and the implications of current recruitment practice for Participatory AI. First, we describe the recruitment methodologies used in AI projects using a corpus of 37 projects to capture the diversity of practices in the field and perform an initial analysis on the documentation of recruitment practices, as well as specific strategies that researchers use to meet goals of equity and empowerment. To complement this analysis, we interview five AI researchers to learn about the outcomes of recruitment methodologies. We find that these outcomes are shaped by structural conditions of their work, researchers' own goals and expectations, and the relationships built from the recruitment methodology and subsequent collaboration. Based on these analyses, we provide recommendations for designing and executing relationship-forward recruitment methods, as well as reflexive recruitment documentation practices for Participatory AI researchers.
+    type: journalArticle
+    license: Copyright (c) 2025 Association for the Advancement of Artificial Intelligence
+    copyright: Copyright (c) 2025 Association for the Advancement of Artificial Intelligence
+    database: ojs.aaai.org
+    date-accessed: 2025-10-30T17:41:23Z
+    issn: 3065-8365
+    issue: 2
+    languages: 
+      - en
+    pages: 1426-1439
+    volume: 8
+    url: https://ojs.aaai.org/index.php/AIES/article/view/36643
+    authors: 
+      - family-names: Kim
+        given-names: Eugene
+      - family-names: Balloli
+        given-names: Vaibhav
+      - family-names: Karimian
+        given-names: Berelian
+      - family-names: Bondi-Kelly
+        given-names: Elizabeth
+      - family-names: Fish
+        given-names: Benjamin
+    editors: 
+      - family-names: Kim
+        given-names: Eugene
+      - family-names: Balloli
+        given-names: Vaibhav
+      - family-names: Karimian
+        given-names: Berelian
+      - family-names: Bondi-Kelly
+        given-names: Elizabeth
+      - family-names: Fish
+        given-names: Benjamin
+    recipients: 
+      - family-names: Kim
+        given-names: Eugene
+      - family-names: Balloli
+        given-names: Vaibhav
+      - family-names: Karimian
+        given-names: Berelian
+      - family-names: Bondi-Kelly
+        given-names: Elizabeth
+      - family-names: Fish
+        given-names: Benjamin
+    translators: 
+      - family-names: Kim
+        given-names: Eugene
+      - family-names: Balloli
+        given-names: Vaibhav
+      - family-names: Karimian
+        given-names: Berelian
+      - family-names: Bondi-Kelly
+        given-names: Elizabeth
+      - family-names: Fish
+        given-names: Benjamin
+    date-published: 2025-10-15
+    identifiers: 
+      - type: doi
+        value: 10.1609/aies.v8i2.36643
