@@ -83,6 +83,92 @@
             font-size: 1rem;
         }
 
+        /* Citation Collapsible Styles */
+        .citation-section {
+            margin-top: 20px;
+        }
+
+        .citation-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .citation-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .citation-toggle::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+
+        .citation-toggle.active::after {
+            transform: rotate(180deg);
+        }
+
+        .citation-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            margin-top: 0;
+        }
+
+        .citation-content.active {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+
+        .bibtex-container {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1f2937;
+            padding: 15px;
+            border-radius: 6px;
+            position: relative;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .bibtex-code {
+            white-space: pre;
+            overflow-x: auto;
+            margin: 0;
+            padding-right: 60px;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .copy-button:hover {
+            background: #2563eb;
+        }
+
+        .copy-button.copied {
+            background: #10b981;
+        }
+
         .content {
             padding: 30px;
         }
@@ -282,6 +368,25 @@
             <div class="conference">
                 <h3>AAAI AI, Ethics, and Society 2025</h3>
             </div>
+
+            <div class="citation-section">
+                <button class="citation-toggle" onclick="toggleCitation()">Cite Us</button>
+                <div class="citation-content" id="citationContent">
+                    <div class="bibtex-container">
+                        <button class="copy-button" onclick="copyBibtex()">Copy</button>
+                        <pre class="bibtex-code" id="bibtexCode">@article{kim2025relationship,
+  title={RelAItionship Building: Analyzing Recruitment Strategies for Participatory AI},
+  author={Kim, Eugene and Balloli, Vaibhav and Karimian, Berelian and Bondi-Kelly, Elizabeth and Fish, Benjamin},
+  journal={AAAI Conference on AI, Ethics, and Society},
+  volume={8},
+  number={2},
+  pages={1426--1439},
+  year={2025},
+  publisher={Association for the Advancement of Artificial Intelligence}
+}</pre>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="content">
@@ -320,6 +425,32 @@
 
         // Load data on page load
         document.addEventListener('DOMContentLoaded', loadEntries);
+
+        // Toggle citation section
+        function toggleCitation() {
+            const toggle = document.querySelector('.citation-toggle');
+            const content = document.getElementById('citationContent');
+            toggle.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        // Copy BibTeX to clipboard
+        function copyBibtex() {
+            const bibtexCode = document.getElementById('bibtexCode').textContent;
+            const copyButton = document.querySelector('.copy-button');
+
+            navigator.clipboard.writeText(bibtexCode).then(() => {
+                copyButton.textContent = 'Copied!';
+                copyButton.classList.add('copied');
+
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy';
+                    copyButton.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
 
         async function loadEntries() {
             try {
